@@ -12,7 +12,14 @@ class App extends Component {
       progress: 0,
       allAnswers: [],
     };
+
+    this.onSelectAnswer = this.onSelectAnswer.bind(this);
   }
+
+  onSelectAnswer = (answer) => {
+    console.log('Selected answer' + answer);
+  }
+
   render(){
     const { allQuestions, currentQuestion } = this.state;
 
@@ -40,7 +47,10 @@ class App extends Component {
                 {/* Progress - end */}
 
                 {/* Question - start */}
-                <Question currentQuestion={currentQuestion}/>
+                <Question 
+                  currentQuestion={currentQuestion}
+                  onSelectAnswer={this.onSelectAnswer}
+                />
                 {/* Question - end */}
 
                 {/* Results - start */}

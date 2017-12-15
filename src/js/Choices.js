@@ -2,12 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NiceButton from './NiceButton';
 
-const Choices = ({ choices }) => {
+const Choices = ({ choices, onSelectAnswer }) => {
     return (
       <div className="choices">
         {
           choices.map((choice, index) => {
-            return <NiceButton key={`answer${index}`} choice={choice} index={index} />
+            return (
+              <NiceButton 
+                key={`answer${index}`} 
+                choice={choice} 
+                index={index}
+                onSelectAnswer={onSelectAnswer}
+              />
+            )
           })
         }
       </div>
@@ -16,6 +23,7 @@ const Choices = ({ choices }) => {
 
 Choices.propTypes = {
   choices: PropTypes.array.isRequired,
+  onSelectAnswer: PropTypes.func.isRequired,
 };
 
 export default Choices;

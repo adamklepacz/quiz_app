@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Choices from './Choices';
 
-const Question = ({ currentQuestion }) => {
+const Question = ({ currentQuestion, onSelectAnswer }) => {
   const { question, choices } = currentQuestion;
   return (
     <div className={`question`}>
@@ -10,7 +10,10 @@ const Question = ({ currentQuestion }) => {
       <h1>{ question }</h1>
 
       {/* Choices - start */}
-      <Choices choices={choices}/>
+      <Choices 
+        choices={choices}
+        onSelectAnswer={onSelectAnswer}
+      />
       {/* Choices - end */}
 
     </div>
@@ -19,6 +22,7 @@ const Question = ({ currentQuestion }) => {
 
 Question.propTypes = {
   currentQuestion: PropTypes.object.isRequired,
+  onSelectAnswer: PropTypes.func.isRequired,
 };
  
 export default Question;
