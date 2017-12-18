@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import data from './data/Data';
 import Question from './Question';
+import ProgressBar from './ProgressBar';
 
 class App extends Component {
   constructor(props) {
@@ -8,10 +9,11 @@ class App extends Component {
 
     this.state = {
       allQuestions: data.allQuestions,
-      currentQuestion: data.allQuestions[3],
+      currentQuestion: data.allQuestions[0],
       progress: 0,
       allAnswers: [],
       loadNewQuestion: false,
+      showResults: false,
     };
 
     this.onSelectAnswer = this.onSelectAnswer.bind(this);
@@ -27,15 +29,31 @@ class App extends Component {
   }
 
   goToNextQuestion = () => {
-    console.log('Go to next question!');
+    const { progress, allQuestions } = this.state;
 
     this.setState({
       loadNewQuestion: true,
     });
+
+    setTimeout(() => {
+      // go to next question only till condition is fulfilled
+      if(progress < allQuestions.length -1) {
+        this.setState({
+        progress: progress + 1,
+          currentQuestion: allQuestions[progress + 1],
+          loadNewQuestion: false,
+        });
+      } else {
+        this.setState({
+          loadNewQuestion: false, 
+          showResults: true,
+        });
+      }
+    }, 300);
   }
 
   render(){
-    const { allQuestions, currentQuestion, loadNewQuestion } = this.state;
+    const { allQuestions, currentQuestion, loadNewQuestion, progress, showResults } = this.state;
 
     return (
             <div>
@@ -53,22 +71,20 @@ class App extends Component {
               <div className={`content`}>
 
                 {/* Progress - start */}
-                <div className="progress-container">
-                  <div className="progress-label">1 of 5 answered</div>
-                  <div className="progress">
-                    <div className="progress-bar" style={{'width': `20%`}}>
-                      <span className="sr-only">20% Complete</span>
-                    </div>
-                  </div>
-                </div>
+                <ProgressBar
+                  progress={progress}
+                />
                 {/* Progress - end */}
 
                 {/* Question - start */}
-                <Question 
-                  currentQuestion={currentQuestion}
-                  onSelectAnswer={this.onSelectAnswer}
-                  loadNewQuestion={loadNewQuestion}
-                />
+                {
+                  // show question when it's true
+                  !showResults && <Question 
+                    currentQuestion={currentQuestion}
+                    onSelectAnswer={this.onSelectAnswer}
+                    loadNewQuestion={loadNewQuestion}
+                  />
+                }
                 {/* Question - end */}
 
                 {/* Results - start */}
