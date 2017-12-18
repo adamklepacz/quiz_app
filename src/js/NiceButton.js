@@ -21,7 +21,7 @@ class NiceButton extends Component {
 
   render() { 
     const { choice, index, onSelectAnswer } = this.props;
-    console.log(onSelectAnswer);
+    
     return (
       <button 
         ref={(input) => { this.answerButton = input; }}
