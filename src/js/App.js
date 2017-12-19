@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import data from './data/Data';
 import Question from './Question';
-import ProgressBar from './ProgressBar';
 
 class App extends Component {
   constructor(props) {
@@ -71,9 +70,14 @@ class App extends Component {
               <div className={`content`}>
 
                 {/* Progress - start */}
-                <ProgressBar
-                  progress={progress}
-                />
+                <div className="progress-container">
+                  <div className="progress-label">1 of 5 answered</div>
+                  <div className="progress">
+                    <div className="progress-bar" style={{width: '20%' }}>
+                      <span className="sr-only">20% Complete</span>
+                    </div>
+                  </div>
+                </div>
                 {/* Progress - end */}
 
                 {/* Question - start */}
