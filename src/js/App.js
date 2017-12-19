@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import data from './data/Data';
 import Question from './Question';
+import Results from './Results';
 
 class App extends Component {
   constructor(props) {
@@ -52,7 +53,7 @@ class App extends Component {
   }
 
   render(){
-    const { allQuestions, currentQuestion, loadNewQuestion, progress, showResults } = this.state;
+    const { allQuestions, currentQuestion, loadNewQuestion, progress, showResults, allAnswers } = this.state;
 
     return (
             <div>
@@ -83,29 +84,18 @@ class App extends Component {
                 {/* Question - start */}
                 {
                   // show question when it's true
-                  !showResults && <Question 
+                  !showResults ? <Question 
                     currentQuestion={currentQuestion}
                     onSelectAnswer={this.onSelectAnswer}
                     loadNewQuestion={loadNewQuestion}
+                  /> : 
+                  <Results 
+                    loadNewQuestion={loadNewQuestion}
+                    allAnswers={allAnswers}
+                    allQuestions={allQuestions}
                   />
                 }
                 {/* Question - end */}
-
-                {/* Results - start */}
-                <div className="results">
-                  <div className="loader"><div className="icon"></div></div>
-                  <div className="results-overlay"></div>
-                  <h1>Here are your answers:</h1>
-                  <div className="answers">
-                    <ol>
-                      <li>What is the best city in the world? <br /><strong>Melbourne</strong></li>
-                    </ol>
-                  </div>
-                  <div className="text-center">
-                    <button className="btn btn-dark">Submit</button>
-                  </div>
-                </div>
-                {/* Results - end */}
 
               </div>
               {/* Content - end */}
