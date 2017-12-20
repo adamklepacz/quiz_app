@@ -12,8 +12,11 @@ class App extends Component {
       currentQuestion: data.allQuestions[0],
       progress: 0,
       allAnswers: [],
+      correctAnswers: [],
       loadNewQuestion: false,
       showResults: false,
+      loadingResults: false,
+      resultsLoaded: false,
     };
 
     this.onSelectAnswer = this.onSelectAnswer.bind(this);
@@ -52,66 +55,100 @@ class App extends Component {
     }, 300);
   }
 
+  onLoadResults = () => {
+    this.setState({
+      loadingResults: true,
+    });
+
+    // correct answers url https://api.myjson.com/bins/zgpjb
+    fetch('https://api.myjson.com/bins/zgpjb')
+      .then(response => response.json())
+      .then(data => {
+        const correctAnswers = data.correctAnswers;
+
+        this.setState({
+          correctAnswers,
+          loadingResults: false,
+          resultsLoaded: true,
+        });
+      })
+      .catch(err => {
+        console.log('Fetching failed', err);
+        this.setState({
+          loadingResults: false,
+          resultsLoaded: true,
+        });
+      });
+
+    // fake delay 
+    setTimeout(() => {
+      this.setState({
+        loadingResults: false,
+      });
+    }, 1000);
+  } 
+
   render(){
-    const { allQuestions, currentQuestion, loadNewQuestion, progress, showResults, allAnswers } = this.state;
+    const { allQuestions, currentQuestion, loadNewQuestion, progress, showResults, allAnswers, loadingResults } = this.state;
 
     return (
-            <div>
-                  
-              {/* Header - start */}
-              <header>
-                  <img 
-                    src="https://ihatetomatoes.net/react-tutorials/abc-quiz/images/plane.svg"
-                    className={`fade-out ${ loadNewQuestion ? 'fade-out-active' : '' }`} 
-                  />
-              </header>
-              {/* Header - end */}
+      <div className={`${loadingResults ? 'is-loading-results' : ''}`}>
+            
+        {/* Header - start */}
+        <header>
+            <img 
+              src="https://ihatetomatoes.net/react-tutorials/abc-quiz/images/plane.svg"
+              className={`fade-out ${ loadNewQuestion ? 'fade-out-active' : '' }`} 
+            />
+        </header>
+        {/* Header - end */}
 
-              {/* Content - start */}
-              <div className={`content`}>
+        {/* Content - start */}
+        <div className={`content`}>
 
-                {/* Progress - start */}
-                <div className="progress-container">
-                  <div className="progress-label">1 of 5 answered</div>
-                  <div className="progress">
-                    <div className="progress-bar" style={{width: '20%' }}>
-                      <span className="sr-only">20% Complete</span>
-                    </div>
-                  </div>
-                </div>
-                {/* Progress - end */}
-
-                {/* Question - start */}
-                {
-                  // show question when it's true
-                  !showResults ? <Question 
-                    currentQuestion={currentQuestion}
-                    onSelectAnswer={this.onSelectAnswer}
-                    loadNewQuestion={loadNewQuestion}
-                  /> : 
-                  <Results 
-                    loadNewQuestion={loadNewQuestion}
-                    allAnswers={allAnswers}
-                    allQuestions={allQuestions}
-                  />
-                }
-                {/* Question - end */}
-
+          {/* Progress - start */}
+          <div className="progress-container">
+            <div className="progress-label">1 of 5 answered</div>
+            <div className="progress">
+              <div className="progress-bar" style={{width: '20%' }}>
+                <span className="sr-only">20% Complete</span>
               </div>
-              {/* Content - end */}
-
-              {/* Navigation - start */}
-              <div className={`navigation text-center is-active`}>
-                <button className={`arrow`}>
-                    <img src="https://ihatetomatoes.net/react-tutorials/abc-quiz/fonts/navigation-left-arrow.svg" />
-                </button>
-                <button disabled className={`arrow is-disabled`}>
-                  <img src="https://ihatetomatoes.net/react-tutorials/abc-quiz/fonts/navigation-right-arrow.svg" />
-                </button>
-              </div>
-              {/* Navigation - end */}
-
             </div>
+          </div>
+          {/* Progress - end */}
+
+          {/* Question - start */}
+          {
+            // show question when it's true
+            !showResults ? <Question 
+              currentQuestion={currentQuestion}
+              onSelectAnswer={this.onSelectAnswer}
+              loadNewQuestion={loadNewQuestion}
+            /> : 
+            <Results 
+              loadNewQuestion={loadNewQuestion}
+              allAnswers={allAnswers}
+              allQuestions={allQuestions}
+              onLoadResults={this.onLoadResults}
+            />
+          }
+          {/* Question - end */}
+
+        </div>
+        {/* Content - end */}
+
+        {/* Navigation - start */}
+        <div className={`navigation text-center is-active`}>
+          <button className={`arrow`}>
+              <img src="https://ihatetomatoes.net/react-tutorials/abc-quiz/fonts/navigation-left-arrow.svg" />
+          </button>
+          <button disabled className={`arrow is-disabled`}>
+            <img src="https://ihatetomatoes.net/react-tutorials/abc-quiz/fonts/navigation-right-arrow.svg" />
+          </button>
+        </div>
+        {/* Navigation - end */}
+
+      </div>
     );
   }
 }

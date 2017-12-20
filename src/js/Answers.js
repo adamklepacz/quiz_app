@@ -5,8 +5,8 @@ const Answers = ({ allAnswers, allQuestions }) => {
   return (
     <ol>
       {
-        allQuestions.map(question => {
-          return <li>{question.question} <strong>City</strong><br/></li>
+        allQuestions.map((question, index) => {
+          return <li key={`answer${index}`}>{question.question} <strong>{allAnswers[index]}</strong><br/></li>
         })
       }
     </ol>
