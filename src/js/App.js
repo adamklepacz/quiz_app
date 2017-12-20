@@ -80,19 +80,19 @@ class App extends Component {
         });
       });
 
-    // fake delay 
-    setTimeout(() => {
-      this.setState({
-        loadingResults: false,
-      });
-    }, 1000);
+    // // fake delay 
+    // setTimeout(() => {
+    //   this.setState({
+    //     loadingResults: false,
+    //   });
+    // }, 1000);
   } 
 
   render(){
-    const { allQuestions, currentQuestion, loadNewQuestion, progress, showResults, allAnswers, loadingResults } = this.state;
+    const { allQuestions, currentQuestion, loadNewQuestion, progress, showResults, allAnswers, loadingResults, correctAnswers, resultsLoaded } = this.state;
 
     return (
-      <div className={`${loadingResults ? 'is-loading-results' : ''}`}>
+      <div className={`${loadingResults ? 'is-loading-results' : ''} ${resultsLoaded ? 'is-showing-results' : 'no-results-loaded'}`}>
             
         {/* Header - start */}
         <header>
@@ -130,6 +130,7 @@ class App extends Component {
               allAnswers={allAnswers}
               allQuestions={allQuestions}
               onLoadResults={this.onLoadResults}
+              correctAnswers={correctAnswers}
             />
           }
           {/* Question - end */}
