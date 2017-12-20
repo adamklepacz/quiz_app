@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import data from './data/Data';
 import Question from './Question';
 import Results from './Results';
+import Progress from './Progress';
 
 class App extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class App extends Component {
     this.state = {
       allQuestions: data.allQuestions,
       currentQuestion: data.allQuestions[0],
-      progress: 0,
+      progress: 1,
       allAnswers: [],
       correctAnswers: [],
       loadNewQuestion: false,
@@ -50,6 +51,7 @@ class App extends Component {
         this.setState({
           loadNewQuestion: false, 
           showResults: true,
+          progress: progress + 1,
         });
       }
     }, 300);
@@ -107,14 +109,10 @@ class App extends Component {
         <div className={`content`}>
 
           {/* Progress - start */}
-          <div className="progress-container">
-            <div className="progress-label">1 of 5 answered</div>
-            <div className="progress">
-              <div className="progress-bar" style={{width: '20%' }}>
-                <span className="sr-only">20% Complete</span>
-              </div>
-            </div>
-          </div>
+          <Progress 
+            progress={progress}
+            allQuestions={allQuestions}
+          />
           {/* Progress - end */}
 
           {/* Question - start */}
