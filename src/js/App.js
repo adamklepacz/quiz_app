@@ -3,6 +3,7 @@ import data from './data/Data';
 import Question from './Question';
 import Results from './Results';
 import Progress from './Progress';
+import Arrow from './Arrow';
 
 class App extends Component {
   constructor(props) {
@@ -41,10 +42,10 @@ class App extends Component {
 
     setTimeout(() => {
       // go to next question only till condition is fulfilled
-      if(progress < allQuestions.length -1) {
+      if(progress < allQuestions.length) {
         this.setState({
         progress: progress + 1,
-          currentQuestion: allQuestions[progress + 1],
+          currentQuestion: allQuestions[progress],
           loadNewQuestion: false,
         });
       } else {
@@ -93,6 +94,8 @@ class App extends Component {
   render(){
     const { allQuestions, currentQuestion, loadNewQuestion, progress, showResults, allAnswers, loadingResults, correctAnswers, resultsLoaded } = this.state;
 
+    const navIsActive = allAnswers.length > 0;
+
     return (
       <div className={`${loadingResults ? 'is-loading-results' : ''} ${resultsLoaded ? 'is-showing-results' : 'no-results-loaded'}`}>
             
@@ -137,13 +140,17 @@ class App extends Component {
         {/* Content - end */}
 
         {/* Navigation - start */}
-        <div className={`navigation text-center is-active`}>
-          <button className={`arrow`}>
-              <img src="https://ihatetomatoes.net/react-tutorials/abc-quiz/fonts/navigation-left-arrow.svg" />
-          </button>
-          <button disabled className={`arrow is-disabled`}>
-            <img src="https://ihatetomatoes.net/react-tutorials/abc-quiz/fonts/navigation-right-arrow.svg" />
-          </button>
+        <div className={`navigation text-center ${navIsActive ? 'is-active' : ''}`}>
+          <Arrow 
+            direction="left" 
+            allAnswers={allAnswers} 
+            progress={progress}
+          />
+          <Arrow 
+            direction="right" 
+            allAnswers={allAnswers} 
+            progress={progress}
+          />
         </div>
         {/* Navigation - end */}
 
