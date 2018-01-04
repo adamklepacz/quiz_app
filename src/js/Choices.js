@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import NiceButton from './NiceButton';
 
-const Choices = ({ choices, onSelectAnswer }) => {
+const Choices = ({ choices, onSelectAnswer, allAnswers }) => {
     return (
       <div className="choices">
         {
@@ -13,6 +13,7 @@ const Choices = ({ choices, onSelectAnswer }) => {
                 choice={choice} 
                 index={index}
                 onSelectAnswer={onSelectAnswer}
+                allAnswers={allAnswers}
               />
             )
           })
@@ -24,6 +25,7 @@ const Choices = ({ choices, onSelectAnswer }) => {
 Choices.propTypes = {
   choices: PropTypes.array.isRequired,
   onSelectAnswer: PropTypes.func.isRequired,
+  allAnswers: PropTypes.array.isRequired,
 };
 
 export default Choices;

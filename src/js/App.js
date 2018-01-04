@@ -12,13 +12,13 @@ class App extends Component {
     this.state = {
       allQuestions: data.allQuestions,
       currentQuestion: data.allQuestions[0],
-      progress: 1,
+      progress: 0,
       allAnswers: [],
-      correctAnswers: [],
       loadNewQuestion: false,
       showResults: false,
       loadingResults: false,
       resultsLoaded: false,
+      correctAnswers: null,
     };
 
     this.onSelectAnswer = this.onSelectAnswer.bind(this);
@@ -42,10 +42,10 @@ class App extends Component {
 
     setTimeout(() => {
       // go to next question only till condition is fulfilled
-      if(progress < allQuestions.length) {
+      if(progress < allQuestions.length - 1) {
         this.setState({
         progress: progress + 1,
-          currentQuestion: allQuestions[progress],
+          currentQuestion: allQuestions[progress + 1],
           loadNewQuestion: false,
         });
       } else {
@@ -56,6 +56,24 @@ class App extends Component {
         });
       }
     }, 300);
+  }
+
+  goToPreviousQuestion = () => {
+    console.log('Go to previous question!');
+    const { progress, allQuestions } = this.state;
+
+    this.setState({
+      loadNewQuestion: true,
+    });
+
+    setTimeout(() => {
+      this.setState({
+        progress: progress - 1,
+        loadNewQuestion: false,
+        currentQuestion: allQuestions[progress - 1],
+      });
+    }, 300);
+
   }
 
   onLoadResults = () => {
@@ -125,6 +143,7 @@ class App extends Component {
               currentQuestion={currentQuestion}
               onSelectAnswer={this.onSelectAnswer}
               loadNewQuestion={loadNewQuestion}
+              allAnswers={allAnswers}
             /> : 
             <Results 
               loadNewQuestion={loadNewQuestion}
@@ -145,11 +164,13 @@ class App extends Component {
             direction="left" 
             allAnswers={allAnswers} 
             progress={progress}
+            goToPreviousQuestion={this.goToPreviousQuestion}
           />
           <Arrow 
             direction="right" 
             allAnswers={allAnswers} 
             progress={progress}
+            goToNextQuestion={this.goToNextQuestion}
           />
         </div>
         {/* Navigation - end */}

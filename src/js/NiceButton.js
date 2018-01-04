@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class NiceButton extends Component {
+  get selected() {
+    const { allAnswers, choice } = this.props;
+
+    return allAnswers.includes(choice);
+  }
 
   getLetter = (index) => {
     const letters = ["A", "B", "C", "D"];
@@ -25,7 +30,7 @@ class NiceButton extends Component {
     return (
       <button 
         ref={(input) => { this.answerButton = input; }}
-        className="btn btn-huge"
+        className={`btn btn-huge ${this.selected ? 'is-selected' : ''}`}
         onClick={(e) => this.handleClick(e)}
       ><span className="letter">{this.getLetter(index)}</span> {choice}
       </button> 
