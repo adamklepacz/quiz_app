@@ -26,11 +26,23 @@ class App extends Component {
 
   onSelectAnswer = (answer) => {
    // console.log('Selected answer' + answer);
-   const { allAnswers } = this.state;
+   const { allAnswers, progress } = this.state;
+   const currentAnswer = allAnswers[progress];
 
-   this.setState({
-     allAnswers: [...allAnswers, answer],
-   }, this.goToNextQuestion());
+   // if currentAnswer exist replace it by new chosen answer
+   if(currentAnswer) {
+    // replace it
+    allAnswers[progress] = answer;
+
+    this.setState({
+      allAnswers,
+    }, this.goToNextQuestion());
+   } else {
+    // add answer to array 
+    this.setState({
+      allAnswers: [...allAnswers, answer],
+    }, this.goToNextQuestion());
+   }
   }
 
   goToNextQuestion = () => {
@@ -71,6 +83,7 @@ class App extends Component {
         progress: progress - 1,
         loadNewQuestion: false,
         currentQuestion: allQuestions[progress - 1],
+        showResults: false,
       });
     }, 300);
 
