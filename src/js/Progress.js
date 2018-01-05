@@ -1,5 +1,5 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const Progress = ({ progress, allQuestions }) => {
   return (
@@ -11,8 +11,8 @@ const Progress = ({ progress, allQuestions }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 Progress.propTypes = {
   progress: PropTypes.number.isRequired,

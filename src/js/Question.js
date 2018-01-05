@@ -5,12 +5,12 @@ import Choices from './Choices';
 const Question = ({ currentQuestion, onSelectAnswer, loadNewQuestion, allAnswers }) => {
   const { question, choices } = currentQuestion;
   return (
-    <div className={`question fade-out ${ loadNewQuestion ? 'fade-out-active' : '' }`}>
+    <div className={`question fade-out ${loadNewQuestion ? 'fade-out-active' : ''}`}>
 
       <h1>{ question }</h1>
 
       {/* Choices - start */}
-      <Choices 
+      <Choices
         choices={choices}
         onSelectAnswer={onSelectAnswer}
         allAnswers={allAnswers}
@@ -18,8 +18,8 @@ const Question = ({ currentQuestion, onSelectAnswer, loadNewQuestion, allAnswers
       {/* Choices - end */}
 
     </div>
-  )
-}
+  );
+};
 
 Question.propTypes = {
   currentQuestion: PropTypes.object.isRequired,
@@ -27,5 +27,5 @@ Question.propTypes = {
   loadNewQuestion: PropTypes.bool.isRequired,
   allAnswers: PropTypes.array.isRequired,
 };
- 
+
 export default Question;
